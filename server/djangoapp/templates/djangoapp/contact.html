@@ -17,7 +17,7 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Dealership Review<a>
+          <a class="navbar-brand" href="#">Navbar</a>
           <div class="me">
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
@@ -27,25 +27,23 @@
                         <a class="nav-link active" aria-current="page" href="{% url 'djangoapp:index' %}">Home</a>
                         <a class="nav-link" href="{% url 'djangoapp:about' %}">About</a>
                         <a class="nav-link" href="{% url 'djangoapp:contact' %}">Contact</a>
-                        {% if user.is_authenticated %}
-                            <a class="nav-link" >( {{user.username}} )</a>
-                             <a class="nav-link" href="{% url 'djangoapp:logout' %}">Sign Out</a>
-                        {% else %}
-                            <form action="{% url 'djangoapp:login' %}" method="POST" class="d-flex" role="login">
-                                {% csrf_token %}
-                                <input class="form-control me-2" type="text" placeholder="username" name="username"  aria-label="username">
-                                <input class="form-control me-2" type="password" placeholder="password" name="password" aria-label="password">
-                                <button class="btn btn-success" type="submit">Login</button>
-                            </form>
-                            <a class="nav-link" href="{% url 'djangoapp:register' %}">Sign Up</a>
-                        {% endif %}
                     </div>
                 </div>
           </div>
         </div>
       </nav>
-    <!--Add a dealer table here -->
-
+      <main>
+          <div class="container">
+              <h1>Contact Details</h1>
+              <hr>
+              <p>
+                  Address: <b>New Jersy, USA</b>
+              </p>
+              <p>
+                  Contact Number: <b>+1 521 56424</b>
+              </p>
+          </div>
+      </main>
     </body>
 
 </html>
