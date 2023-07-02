@@ -1,16 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    {% load static %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
-
-</head>
-    <body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Dealership Review - About</title>
+        <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">       
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet">
+        <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+        <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+    
+    </head>
+    
+<body>
+    <nav class="navbar navbar-expand-lg bg-primary mb-3" data-bs-theme="dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Dealership Review<a>
+          <div class="me">
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link active" aria-current="page" href="{% url 'djangoapp:index' %}">Home</a>
+                        <a class="nav-link" href="{% url 'djangoapp:about' %}">About</a>
+                        <a class="nav-link" href="{% url 'djangoapp:contact' %}">Contact</a>
+                        {% if user.is_authenticated %}
+                            <a class="nav-link" >( {{user.username}} )</a>
+                             <a class="nav-link" href="{% url 'djangoapp:logout' %}">Sign Out</a>
+                        {% else %}
+                            <form action="{% url 'djangoapp:login' %}" method="POST" class="d-flex" role="login">
+                                {% csrf_token %}
+                                <input class="form-control me-2" type="text" placeholder="username" name="username"  aria-label="username">
+                                <input class="form-control me-2" type="password" placeholder="password" name="password" aria-label="password">
+                                <button class="btn btn-success" type="submit">Login</button>
+                            </form>
+                            <a class="nav-link" href="{% url 'djangoapp:register' %}">Sign Up</a>
+                        {% endif %}
+                    </div>
+                </div>
+          </div>
+        </div>
+      </nav>
     <!--Add review form here -->
+    <main>
+        <div class="container p-3">
+            <form class="border border-dark p-4 w-auto h-auto text-center bg-light" action="{% url 'djangoapp:add_review' dealer_id %}"  method="post">
+                {% csrf_token %}
+                
+                <h1 class="text-center">Review for {{dealer_name}}</h1><br>
+                <label for="name"><b>Name</b></label>
+                <br>
+                <input class="form-control" type="text" placeholder="Enter Your Name: " name="name" required>
+                <label for="content"><b>Review</b></label>
+                <br>
+                <textarea class="form-control" id="content" name="content" rows="2" required placeholder="Write your review here: "></textarea>
+                <br>
+                <input class="form-check-input" type="checkbox" name="purchasecheck" id="purchasecheck">
+                <label for="purchasecheck"><b>Did your purchase from this dealership?</b></label>
+                <br>
+                <label for="car"><b>Select vehicle (if purchased)</b></label>
+                <br>
+                <select name="car" id="car" class="form-select" required>
+                    {% for car in cars %}
+                        <option selected value="{{car.make.name}}|{{car.name}}|{{ car.year|date:'Y' }}">{{ car.year|date:"Y" }} {{car.make.name}} {{car.name}}</option>
+                    {% endfor %}
+                </select>
+                
+                <br>
+                <label for="purchase_date"><b>When was this purchased?</b></label>
+                <input class="date-own form-control" type="date" name="purchase_date" id="purchase_date">
+                <br>
+                <button class="btn btn-warning btn-lg" type="submit">Submit Review</button>
+            </form>
+        </div>
+    </main>
     </body>
 </html>
